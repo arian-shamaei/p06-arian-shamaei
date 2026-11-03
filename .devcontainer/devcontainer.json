@@ -1,0 +1,20 @@
+{
+  "name": "CSE 490 Project 6: thumbor",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "hostRequirements": { "cpus": 2, "memory": "8gb", "storage": "32gb" },
+  "forwardPorts": [8888],
+  "portsAttributes": { "8888": { "label": "thumbor image server", "onAutoForward": "notify" } },
+  "secrets": {
+    "LITELLM_API_KEY": { "description": "Your course key from Project 3. It starts with sk-. The harness sends it to the course gateway." },
+    "GITHUB_PERSONAL_ACCESS_TOKEN": { "description": "Your fine-grained GitHub token for this one repository (setup step 3). It starts with github_pat_. The GitHub MCP server sends it with every request." }
+  },
+  "containerEnv": { "LITELLM_BASE_URL": "https://llmproxy.cs.washington.edu" },
+  "postCreateCommand": "bash .devcontainer/setup.sh 2>&1 | tee ~/setup.log",
+  "postStartCommand": "bash .devcontainer/start-redis.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": ["vivswan.litellm-vscode-chat", "ms-python.python"],
+      "settings": { "python.defaultInterpreterPath": "/workspaces/${localWorkspaceFolderBasename}/.venv/bin/python", "workbench.startupEditor": "none", "extensions.ignoreRecommendations": true }
+    }
+  }
+}
